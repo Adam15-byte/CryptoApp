@@ -31,6 +31,7 @@ const MarketsScreen = () => {
             rank: item.market_cap_rank,
             ath: item.ath,
             athPercentage: item.ath_change_percentage,
+            volume: item.total_volume,
           })
         }
       />
