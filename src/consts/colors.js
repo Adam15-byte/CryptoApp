@@ -2,6 +2,7 @@ const COLORS = {
   black: "#000000",
   white: "#ffffff",
   grey: "#918e8f",
+  lightgrey: "#d4d4d4",
   darkthemeBG: "#121212",
   lightthemeBG: "#ebe6e6",
   orange: "#e86a09",

@@ -19,11 +19,10 @@ const MarketsScreen = () => {
         icon={item.image}
         onPress={() =>
           navigation.navigate("DetailsScreen", {
+            id: item.id,
             name: item.name,
             symbol: item.symbol,
             price: item.current_price,
-            priceChangePercentage: item.price_change_percentage_24h,
-            priceChange: item.price_change_24h,
             marketCap: item.market_cap,
             icon: item.image,
             circulatingSupply: item.circulating_supply,

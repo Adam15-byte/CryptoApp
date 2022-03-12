@@ -4,6 +4,13 @@ import { AntDesign } from "@expo/vector-icons";
 import COLORS from "../consts/colors";
 
 const StatsComponent = ({ icon, title, subtitle, value, subvalue }) => {
+  const isLargerThanZero = (value) => {
+    if (value > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   return (
     <View style={styles.mainContainer}>
       <View style={styles.leftContainer}>
@@ -15,7 +22,16 @@ const StatsComponent = ({ icon, title, subtitle, value, subvalue }) => {
       </View>
       <View style={styles.rightContainer}>
         <Text>{value}</Text>
-        {subvalue && <Text style={styles.subtitleText}>{subvalue}</Text>}
+        {subvalue && (
+          <Text
+            style={[
+              styles.subtitleText,
+              { color: isLargerThanZero(subvalue) ? COLORS.green : COLORS.red },
+            ]}
+          >
+            {subvalue}
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -35,8 +51,7 @@ const styles = StyleSheet.create({
   leftContainer: { flexDirection: "row", alignItems: "center" },
   leftTextContainer: {
     marginLeft: 10,
-    paddingVertical: 13,
-    justifyContent: "space-around",
+    justifyContent: "flex-start",
     height: "100%",
   },
   rightContainer: {
@@ -47,7 +62,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   subtitleText: {
-    color: COLORS.grey,
     fontSize: 13,
+    color: COLORS.grey,
   },
 });
