@@ -37,7 +37,7 @@ const ListComponent = ({ name, ticker, price, priceChange, icon, onPress }) => {
               { color: isPositive(priceChange) ? COLORS.green : COLORS.red },
             ]}
           >
-            {isPositive(priceChange) ? "+" : "-"}
+            {isPositive(priceChange) ? "+" : ""}
             {priceChange.toFixed(2)} %
           </Text>
         </View>

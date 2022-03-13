@@ -1,14 +1,18 @@
 import { StyleSheet, Text, SafeAreaView, View, FlatList } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import ListComponent from "../components/ListComponent";
-import React from "react";
+import ListC, { useContext, useEffect } from "react";
 import COLORS from "../consts/colors";
 import dummyCoinData from "../../assets/data/cryptocurrenciesDummy";
 import { useNavigation } from "@react-navigation/native";
+import ListComponent from "../components/ListComponent";
+import { CryptoCurrencyDataContext } from "../service/CryptoCurrencyDataContext";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
 const MarketsScreen = () => {
   const navigation = useNavigation();
+  const { getCryptoData, isLoading, cryptoData, getStringListOfFavourites } =
+    useContext(CryptoCurrencyDataContext);
   const renderItem = ({ item }) => {
     return (
       <ListComponent
@@ -36,17 +40,36 @@ const MarketsScreen = () => {
       />
     );
   };
+  useEffect(() => {
+    getStringListOfFavourites().then((res) => getCryptoData(res));
+  }, []);
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.topBar}>
         <Octicons name="three-bars" size={24} color="black" />
         <Text style={styles.headerText}>Watchlist</Text>
-        <Feather name="search" size={24} color="black" />
+        <Feather
+          name="search"
+          size={24}
+          color="black"
+          onPress={() => navigation.navigate("SearchScreen")}
+        />
       </View>
       <View style={styles.separator} />
-      <View>
-        <FlatList data={dummyCoinData} renderItem={renderItem} />
-      </View>
+      {isLoading && (
+        <View style={styles.activityIndicator}>
+          <ActivityIndicator
+            animating={true}
+            color={Colors.red800}
+            size="large"
+          />
+        </View>
+      )}
+      {!isLoading && (
+        <View>
+          <FlatList data={cryptoData} renderItem={renderItem} />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -79,5 +102,10 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
     marginVertical: 10,
+  },
+  activityIndicator: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
   },
 });

@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import DetailsScreen from "./src/screens/DetailsScreen";
 import MarketsScreen from "./src/screens/MarketsScreen";
+import SearchScreen from "./src/screens/SearchScreen";
 
 const Stack = createStackNavigator();
 
@@ -12,10 +13,11 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="MarketsScreen"
-        screenOptions={{ headerShown: false }}
+        screenOptions={{ headerShown: false, presentation: "modal" }}
       >
         <Stack.Screen name="MarketsScreen" component={MarketsScreen} />
         <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
+        <Stack.Screen name="SearchScreen" component={SearchScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
