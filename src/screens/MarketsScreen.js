@@ -11,8 +11,14 @@ import { ActivityIndicator, Colors } from "react-native-paper";
 
 const MarketsScreen = () => {
   const navigation = useNavigation();
-  const { getCryptoData, isLoading, cryptoData, getStringListOfFavourites } =
-    useContext(CryptoCurrencyDataContext);
+  const {
+    getCryptoData,
+    isLoading,
+    cryptoData,
+    getStringListOfFavourites,
+    favouritesList,
+    isFavouritesEmpty
+  } = useContext(CryptoCurrencyDataContext);
   const renderItem = ({ item }) => {
     return (
       <ListComponent
@@ -40,9 +46,6 @@ const MarketsScreen = () => {
       />
     );
   };
-  useEffect(() => {
-    getStringListOfFavourites().then((res) => getCryptoData(res));
-  }, []);
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.topBar}>
@@ -65,14 +68,14 @@ const MarketsScreen = () => {
           />
         </View>
       )}
-      {!isLoading && (
+      {!isLoading && 
         <View>
           <FlatList data={cryptoData} renderItem={renderItem} />
         </View>
-      )}
+      }
     </SafeAreaView>
   );
-};
+};;
 
 export default MarketsScreen;
 

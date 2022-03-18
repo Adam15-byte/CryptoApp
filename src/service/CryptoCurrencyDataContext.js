@@ -1,30 +1,30 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const CryptoCurrencyDataContext = createContext();
 
 export const CryptoCurrencyDataContextProvider = ({ children }) => {
+  const [favouritesList, setFavouritesList] = useState(null);
   const [cryptoData, setCryptoData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [favouritesList, setFavouritesList] = useState([
-    "bitcoin",
-    "cardano",
-    "avalanche-2",
-  ]);
-  const [favouritesString, setFavouritesString] = useState("bitcoin");
+  const isFavouritesEmpty = favouritesList === null ? true : false;
   const getStringListOfFavourites = async () => {
-    setIsLoading(true);
-    var concString = "";
-    await favouritesList.map((element, index) => {
-      if (index === 0) {
-        concString = (concString + element).toString();
-      } else {
-        concString = (concString + "%2C%20" + element).toString();
-      }
-    });
-    setFavouritesString(concString);
-    return concString;
+    if (isFavouritesEmpty) {
+      return null;
+    } else {
+      setIsLoading(true);
+      var concString = "";
+      await favouritesList.map((element, index) => {
+        if (index === 0) {
+          concString = (concString + element).toString();
+        } else {
+          concString = (concString + "%2C%20" + element).toString();
+        }
+      });
+      return concString;
+    }
   };
 
   const getCryptoData = async (coinsList) => {
@@ -36,13 +36,62 @@ export const CryptoCurrencyDataContextProvider = ({ children }) => {
         )
         .then((res) => {
           const database = res.data;
-          setCryptoData(database);
+          setCryptoData((prevState) => database);
           setIsLoading(false);
         });
     } catch (error) {
       console.log(error);
     }
   };
+
+  const addNewFavourite = async (id) => {
+    if (isFavouritesEmpty) {
+      await setFavouritesList((prevState) => id);
+    } else {
+      await setFavouritesList((currentList) => [...currentList, id]);
+    }
+  };
+
+  const removeFavourite = async (id) => {
+    const newFavourites = favouritesList.filter((x) => x !== id);
+    await setFavouritesList((prevState) => newFavourites);
+  };
+
+  const saveFavouritesToMemory = async () => {
+    try {
+      const jsonValue = JSON.stringify(favouritesList);
+      await AsyncStorage.setItem("@cryptoWatchlist", jsonValue);
+      console.log("Async saved data");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const loadFavouritesFromMemory = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@cryptoWatchlist");
+      const watchlistData = JSON.parse(jsonValue);
+      setFavouritesList((prevState) => watchlistData);
+      console.log(favouritesList);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    loadFavouritesFromMemory();
+  }, []);
+  useEffect(() => {
+    if (isFavouritesEmpty) {
+      return null;
+    } else {
+      getStringListOfFavourites().then((res) => getCryptoData(res));
+    }
+  }, [favouritesList]);
+  useEffect(() => {
+    saveFavouritesToMemory();
+  }, [favouritesList]);
+
   return (
     <CryptoCurrencyDataContext.Provider
       value={{
@@ -50,6 +99,10 @@ export const CryptoCurrencyDataContextProvider = ({ children }) => {
         isLoading,
         getCryptoData: getCryptoData,
         getStringListOfFavourites: getStringListOfFavourites,
+        favouritesList,
+        addNewFavourite: addNewFavourite,
+        removeFavourite: removeFavourite,
+        isFavouritesEmpty,
       }}
     >
       {children}

@@ -4,13 +4,16 @@ import { StyleSheet, Text, View } from "react-native";
 import Navigation from "./Navigation";
 import { PriceDataContextProvider } from "./src/service/PriceDataContext";
 import { CryptoCurrencyDataContextProvider } from "./src/service/CryptoCurrencyDataContext";
+import { SearchContextProvider } from "./src/service/SearchContext";
 
 export default function App() {
   return (
     <CryptoCurrencyDataContextProvider>
-      <PriceDataContextProvider>
-        <Navigation />
-      </PriceDataContextProvider>
+      <SearchContextProvider>
+        <PriceDataContextProvider>
+          <Navigation />
+        </PriceDataContextProvider>
+      </SearchContextProvider>
     </CryptoCurrencyDataContextProvider>
   );
 }

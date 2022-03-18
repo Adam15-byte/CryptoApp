@@ -62,9 +62,18 @@ const DetailsScreen = ({ route }) => {
   const formatCurrency = (value) => {
     "worklet";
     if (value === "") {
-      return `$ ${price.toFixed(2).toString()}`;
+      if (price < 0.1) {
+        return `$ ${price.toFixed(12).toString()}`;
+      } else {
+        return `$ ${price.toFixed(2).toString()}`;
+      }
+    } else {
+      if (parseFloat(value).toFixed(1) < 0.1) {
+        return `$ ${parseFloat(value).toFixed(12)}`;
+      } else {
+        return `$ ${parseFloat(value).toFixed(2)}`;
+      }
     }
-    return `$ ${parseFloat(value).toFixed(2)}`;
   };
   const formatTimestamp = (timestamp) => {
     "worklet";
@@ -118,10 +127,7 @@ const DetailsScreen = ({ route }) => {
                 <Text style={styles.rankingText}>#{rank}</Text>
               </View>
             </View>
-            <FavouriteStar
-              isFavourite={isFavourite}
-              onPress={() => changeIsFavourite(!isFavourite)}
-            />
+            <FavouriteStar id={id} />
           </View>
           <View style={styles.separator} />
           <View style={styles.priceDataBar}>
