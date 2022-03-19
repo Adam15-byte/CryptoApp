@@ -60,7 +60,7 @@ const SearchScreen = () => {
           placeholder="search for cryptocurrencies"
           autoCorrect={false}
           spellCheck={false}
-          onEndEditing={(text) => getSearchData(text)}
+          onChangeText={(text) => getSearchData(text)}
           style={styles.textInputStyle}
         />
         <Feather name="search" size={24} color={COLORS.black} />
