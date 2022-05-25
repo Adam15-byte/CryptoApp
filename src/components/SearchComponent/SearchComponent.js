@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
+import { styles } from "./SearchComponentStyle";
 
 const SearchComponent = ({ image, name, onPress }) => {
   return (
@@ -18,29 +19,3 @@ const SearchComponent = ({ image, name, onPress }) => {
 };
 
 export default SearchComponent;
-
-const styles = StyleSheet.create({
-  componentContainer: {
-    flexDirection: "row",
-    height: 65,
-    width: "100%",
-    alignItems: "center",
-    paddingHorizontal: 30,
-  },
-  leftContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  icon: {
-    width: 30,
-    height: 30,
-  },
-  name: {
-    fontWeight: "600",
-    marginLeft: 10,
-  },
-  rightContainer: {
-    marginLeft: "auto",
-    alignItems: "flex-end",
-  },
-});

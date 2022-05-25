@@ -2,12 +2,13 @@ import { StyleSheet, Text, SafeAreaView, View, FlatList } from "react-native";
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import ListC, { useContext, useEffect } from "react";
-import COLORS from "../consts/colors";
-import dummyCoinData from "../../assets/data/cryptocurrenciesDummy";
+import COLORS from "../../consts/colors";
+import dummyCoinData from "../../../assets/data/cryptocurrenciesDummy";
 import { useNavigation } from "@react-navigation/native";
-import ListComponent from "../components/ListComponent";
-import { CryptoCurrencyDataContext } from "../service/CryptoCurrencyDataContext";
+import ListComponent from "../../components/ListComponent/ListComponent";
+import { CryptoCurrencyDataContext } from "../../service/CryptoCurrencyDataContext";
 import { ActivityIndicator, Colors } from "react-native-paper";
+import { styles } from "./MartkesScreenStyle";
 
 const MarketsScreen = () => {
   const navigation = useNavigation();
@@ -17,7 +18,7 @@ const MarketsScreen = () => {
     cryptoData,
     getStringListOfFavourites,
     favouritesList,
-    isFavouritesEmpty
+    isFavouritesEmpty,
   } = useContext(CryptoCurrencyDataContext);
   const renderItem = ({ item }) => {
     return (
@@ -68,47 +69,13 @@ const MarketsScreen = () => {
           />
         </View>
       )}
-      {!isLoading && 
+      {!isLoading && (
         <View>
           <FlatList data={cryptoData} renderItem={renderItem} />
         </View>
-      }
+      )}
     </SafeAreaView>
   );
-};;
+};
 
 export default MarketsScreen;
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    paddingVertical: 10,
-    width: "100%",
-  },
-  topBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
-    alignSelf: "center",
-    marginTop: 20,
-    width: "95%",
-  },
-  headerText: {
-    color: COLORS.black,
-    fontSize: 24,
-    fontWeight: "bold",
-    marginLeft: 10,
-  },
-  separator: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: COLORS.grey,
-    width: "90%",
-    alignSelf: "center",
-    marginVertical: 10,
-  },
-  activityIndicator: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
-  },
-});

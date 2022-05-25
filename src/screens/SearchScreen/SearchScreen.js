@@ -7,15 +7,16 @@ import {
   FlatList,
 } from "react-native";
 import React, { useContext } from "react";
-import COLORS from "../consts/colors";
+import COLORS from "../../consts/colors";
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import sampleSearchData from "../../assets/data/sampleSearchData";
-import SearchComponent from "../components/SearchComponent";
-import { SearchContext } from "../service/SearchContext";
+import sampleSearchData from "../../../assets/data/sampleSearchData";
+import SearchComponent from "../../components/SearchComponent/SearchComponent";
+import { SearchContext } from "../../service/SearchContext";
 import { ActivityIndicator, Colors } from "react-native-paper";
+import { styles } from "./SearchScreenStyle";
 
 const SearchScreen = () => {
   const navigation = useNavigation();
@@ -84,40 +85,3 @@ const SearchScreen = () => {
 };
 
 export default SearchScreen;
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    paddingVertical: 10,
-    width: "100%",
-  },
-  topBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
-    alignSelf: "center",
-    marginTop: 20,
-    width: "95%",
-  },
-  headerText: {
-    color: COLORS.black,
-    fontSize: 24,
-    fontWeight: "bold",
-    marginLeft: 10,
-  },
-  separator: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: COLORS.grey,
-    width: "90%",
-    alignSelf: "center",
-    marginVertical: 10,
-  },
-  textInputStyle: {
-    width: "70%",
-  },
-  activityIndicator: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
-  },
-});

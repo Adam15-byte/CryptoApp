@@ -1,18 +1,16 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
+import React  from "react";
 import { FontAwesome } from "@expo/vector-icons";
-import COLORS from "../consts/colors";
-import { CryptoCurrencyDataContext } from "../service/CryptoCurrencyDataContext";
+import COLORS from "../../consts/colors";
+import FavouriteStarLogic from "./FavouriteStartLogic";
 
 const FavouriteStar = ({ id }) => {
   const {
     favouritesList,
     addNewFavourite,
     removeFavourite,
-    getStringListOfFavourites,
-    getCryptoData,
-  } = useContext(CryptoCurrencyDataContext);
-  const isFavouritesEmpty = favouritesList === null ? true : false;
+    isFavouritesEmpty,
+  } = FavouriteStarLogic();
   const isFavourite = isFavouritesEmpty ? null : favouritesList.includes(id);
   return (
     <>

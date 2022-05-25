@@ -1,20 +1,12 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-  TouchableOpacity,
-} from "react-native";
-import React, { useContext } from "react";
-import { PriceDataContext } from "../service/PriceDataContext";
-import COLORS from "../consts/colors";
+import { Text, View, TouchableOpacity } from "react-native";
+import React from "react";
+import COLORS from "../../consts/colors";
+import { styles } from "./DataRangePickerStyles";
+import DateRangePickerLogic from "./DateRangePickerLogic";
 
 const DateRangePicker = () => {
-  const { changeDateRange, dayRange } = useContext(PriceDataContext);
-  const is7days = dayRange === 7 ? true : false;
-  const is14days = dayRange === 14 ? true : false;
-  const is30days = dayRange === 30 ? true : false;
-  const is90days = dayRange === 90 ? true : false;
+  const { changeDateRange, is7days, is14days, is30days, is90days } =
+    DateRangePickerLogic();
   return (
     <View style={styles.mainContainer}>
       <TouchableOpacity
@@ -60,17 +52,3 @@ const DateRangePicker = () => {
 };
 
 export default DateRangePicker;
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    width: "100%",
-    marginTop: 13,
-    marginBottom: 3,
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
-  button: {
-    padding: 5,
-    borderRadius: 10,
-  },
-});

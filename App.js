@@ -7,9 +7,7 @@ import { CryptoCurrencyDataContextProvider } from "./src/service/CryptoCurrencyD
 import { SearchContextProvider } from "./src/service/SearchContext";
 
 export default function App() {
-  const myNewFunction = (a, b) => {
-    return a * b;
-  };
+
   return (
     <CryptoCurrencyDataContextProvider>
       <SearchContextProvider>

@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
-import COLORS from "../consts/colors";
+import COLORS from "../../consts/colors";
+import { styles } from "./StatsComponentStyle";
 
 const StatsComponent = ({ icon, title, subtitle, value, subvalue }) => {
   const isLargerThanZero = (value) => {
@@ -38,31 +39,3 @@ const StatsComponent = ({ icon, title, subtitle, value, subvalue }) => {
 };
 
 export default StatsComponent;
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flexDirection: "row",
-    height: 65,
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 30,
-  },
-  leftContainer: { flexDirection: "row", alignItems: "center" },
-  leftTextContainer: {
-    marginLeft: 10,
-    justifyContent: "flex-start",
-    height: "100%",
-  },
-  rightContainer: {
-    marginLeft: "auto",
-    alignItems: "flex-end",
-    paddingVertical: 13,
-    justifyContent: "space-around",
-    height: "100%",
-  },
-  subtitleText: {
-    fontSize: 13,
-    color: COLORS.grey,
-  },
-});
