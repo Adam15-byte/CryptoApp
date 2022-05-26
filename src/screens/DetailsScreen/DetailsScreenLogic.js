@@ -1,7 +1,8 @@
 import { Text, View } from "react-native";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PriceDataContext } from "../../service/PriceDataContext";
 import { useNavigation } from "@react-navigation/native";
+import PortfolioContext from "../../service/PortfolioContext";
 
 const DetailsScreenLogic = () => {
   const shortenLargeNumber = (number) => {
@@ -15,6 +16,8 @@ const DetailsScreenLogic = () => {
   };
   const { isLoading, priceData, getPriceData, dayRange } =
     useContext(PriceDataContext);
+  const { modalVisibility, changeModalVisibility } =
+    useContext(PortfolioContext);
   const navigation = useNavigation();
   const calcPercentOfMax = (num1, num2) => {
     const result = ((num1 * 100) / num2).toFixed(0);
@@ -36,7 +39,6 @@ const DetailsScreenLogic = () => {
       return `${formatTimestamp(value)}`;
     }
   };
-
   return {
     shortenLargeNumber,
     isLoading,
@@ -46,6 +48,8 @@ const DetailsScreenLogic = () => {
     navigation,
     formatDate,
     calcPercentOfMax,
+    modalVisibility,
+    changeModalVisibility,
   };
 };
 

@@ -74,7 +74,7 @@ const MarketsScreen = () => {
         />
       </View>
       <View style={styles.separator} />
-      {isLoading && (
+      {/* {isLoading && (
         <View style={styles.activityIndicator}>
           <ActivityIndicator
             animating={true}
@@ -82,12 +82,12 @@ const MarketsScreen = () => {
             size="large"
           />
         </View>
-      )}
-      {!isLoading && (
-        <View>
-          <FlatList data={cryptoData} renderItem={renderItem} />
-        </View>
-      )}
+      )} */}
+      {/* {!isLoading && ( */}
+      <View>
+        <FlatList data={dummyCoinData} renderItem={renderItem} />
+      </View>
+      {/* )} */}
     </SafeAreaView>
   );
 };

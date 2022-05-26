@@ -1,4 +1,11 @@
-import { Text, View, SafeAreaView, Image, Dimensions } from "react-native";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import React, { useContext, useEffect } from "react";
 import COLORS from "../../consts/colors";
 import FavouriteStar from "../../components/FavouriteStar/FavouriteStar";
@@ -19,6 +26,7 @@ import { styles } from "./DetailsScreenStyle";
 import DetailsScreenLogic from "./DetailsScreenLogic";
 import { PriceDataContext } from "../../service/PriceDataContext";
 const { width: SIZE } = Dimensions.get("window");
+import AddToPortfolio from "../../components/AddToPortfolio/AddToPortfolio";
 
 const DetailsScreen = ({ route }) => {
   const {
@@ -43,6 +51,8 @@ const DetailsScreen = ({ route }) => {
     navigation,
     formatDate,
     calcPercentOfMax,
+    modalVisibility,
+    changeModalVisibility,
   } = DetailsScreenLogic();
   const formatCurrency = (value) => {
     "worklet";
@@ -82,6 +92,7 @@ const DetailsScreen = ({ route }) => {
             smoothingStrategy: "bezier",
           }}
         >
+          <AddToPortfolio icon={icon} name={name} symbol={symbol} />
           <View style={styles.topBar}>
             <Ionicons
               style
@@ -116,7 +127,16 @@ const DetailsScreen = ({ route }) => {
           </View>
 
           <View style={styles.myPortfolioContainer}>
-            <Text style={styles.myPortfolioText}>My portfolio</Text>
+            <View style={styles.myPortfolioHeader}>
+              <Text style={styles.myPortfolioText}>My portfolio</Text>
+              <TouchableOpacity
+                style={styles.addButton}
+                onPress={changeModalVisibility}
+              >
+                <Ionicons name="add" size={20} color={COLORS.white} />
+                <Text style={styles.addText}>Add</Text>
+              </TouchableOpacity>
+            </View>
             <PortfolioComponent
               icon={icon}
               name={name}

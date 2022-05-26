@@ -42,8 +42,8 @@ export const SearchContextProvider = ({ children }) => {
       value={{
         searchResults,
         isLoading,
-        getSearchData: getSearchData,
-        getFullTokenData: getFullTokenData,
+        getSearchData,
+        getFullTokenData,
       }}
     >
       {children}

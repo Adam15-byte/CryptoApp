@@ -80,4 +80,25 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     height: "100%",
   },
+  myPortfolioHeader: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  addButton: {
+    flexDirection: "row",
+    backgroundColor: COLORS.black,
+    width: 70,
+    height: 30,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 10,
+  },
+  addText: {
+    color: COLORS.white,
+    marginLeft: 3,
+    fontWeight: "700",
+    fontSize: 16,
+  },
 });
