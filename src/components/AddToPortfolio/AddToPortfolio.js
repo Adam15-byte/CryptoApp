@@ -12,7 +12,7 @@ import PortfolioContext from "../../service/PortfolioContext";
 import { Ionicons } from "@expo/vector-icons";
 import COLORS from "../../consts/colors";
 
-const AddToPortfolio = ({ icon, name, symbol }) => {
+const AddToPortfolio = ({ id, icon, name, symbol }) => {
   const {
     changeModalVisibility,
     modalVisibility,
@@ -31,7 +31,7 @@ const AddToPortfolio = ({ icon, name, symbol }) => {
     if (inputToFloat > 0) {
       clearErrorInModal();
       changeTokensToAdd("");
-      addToPortfolio(icon, name, inputToFloat, symbol);
+      addToPortfolio(id, icon, name, inputToFloat, symbol);
     }
   };
   return (

@@ -9,15 +9,15 @@ import { PortfolioContextProvider } from "./src/service/PortfolioContext";
 export default function App() {
 
   return (
-    <PortfolioContextProvider>
-      <CryptoCurrencyDataContextProvider>
-        <SearchContextProvider>
-          <PriceDataContextProvider>
+    <CryptoCurrencyDataContextProvider>
+      <SearchContextProvider>
+        <PriceDataContextProvider>
+          <PortfolioContextProvider>
             <Navigation />
-          </PriceDataContextProvider>
-        </SearchContextProvider>
-      </CryptoCurrencyDataContextProvider>
-    </PortfolioContextProvider>
+          </PortfolioContextProvider>
+        </PriceDataContextProvider>
+      </SearchContextProvider>
+    </CryptoCurrencyDataContextProvider>
   );
 }
 

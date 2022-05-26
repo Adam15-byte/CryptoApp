@@ -92,7 +92,7 @@ const DetailsScreen = ({ route }) => {
             smoothingStrategy: "bezier",
           }}
         >
-          <AddToPortfolio icon={icon} name={name} symbol={symbol} />
+          <AddToPortfolio id={id} icon={icon} name={name} symbol={symbol} />
           <View style={styles.topBar}>
             <Ionicons
               style

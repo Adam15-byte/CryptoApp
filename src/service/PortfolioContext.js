@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { SearchContext } from "./SearchContext";
 
 export const PortfolioContext = createContext();
@@ -25,13 +25,33 @@ export const PortfolioContextProvider = ({ children }) => {
   // Array of positions in portfolio
   ////
   const [portfolio, setPortfolio] = useState([]);
-  const addToPortfolio = (icon, name, amount, symbol) => {
+  const addToPortfolio = (id, icon, name, amount, symbol) => {
     setPortfolio((prevState) => [
       ...prevState,
-      { icon: icon, name: name, amount: amount, symbol: symbol, dolarValue: 0 },
+      {
+        id: id,
+        icon: icon,
+        name: name,
+        amount: amount,
+        symbol: symbol,
+        dolarValue: 0,
+      },
     ]);
   };
-
+  const updateValueInPortfolio = () => {
+    if (portfolio.length !== 0) {
+      let tempArray = [];
+      portfolio.map((item) => {
+        getFullTokenData(item.id).then((res) => {
+          item.dolarValue = res[0].current_price * item.amount;
+          tempArray.push(item);
+        });
+      });
+    }
+  };
+  useEffect(() => {
+    updateValueInPortfolio();
+  }, [portfolio]);
   return (
     <PortfolioContext.Provider
       value={{
@@ -49,6 +69,6 @@ export const PortfolioContextProvider = ({ children }) => {
       {children}
     </PortfolioContext.Provider>
   );
-};
+};;
 
 export default PortfolioContext;

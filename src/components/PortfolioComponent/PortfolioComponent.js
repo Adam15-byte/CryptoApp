@@ -19,7 +19,7 @@ const PortfolioComponent = ({
         <Text style={styles.dolarText}>{dolarValue.toFixed(2)} $</Text>
         <View style={styles.tokenAmountContainer}>
           <Text style={styles.tokenText}>
-            {tokenAmount.toFixed(6)} {ticker}
+            {tokenAmount.toFixed(1)} {ticker}
           </Text>
         </View>
       </View>
