@@ -33,4 +33,13 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     height: "100%",
   },
+  portfolioButtonContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  myPortfolioText: {
+    fontSize: 10,
+    fontWeight: "600",
+    color: COLORS.black,
+  },
 });

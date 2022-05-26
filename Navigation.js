@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import DetailsScreen from "./src/screens/DetailsScreen/DetailsScreen";
 import MarketsScreen from "./src/screens/MartketsScreen/MarketsScreen";
 import SearchScreen from "./src/screens/SearchScreen/SearchScreen";
+import PortfolioScreen from "./src/screens/PortfolioScreen/PortfolioScreen";
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ const Navigation = () => {
         <Stack.Screen name="MarketsScreen" component={MarketsScreen} />
         <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
         <Stack.Screen name="SearchScreen" component={SearchScreen} />
+        <Stack.Screen name="PortfolioScreen" component={PortfolioScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

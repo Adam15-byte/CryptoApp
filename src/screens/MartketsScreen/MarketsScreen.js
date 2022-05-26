@@ -1,5 +1,11 @@
-import { StyleSheet, Text, SafeAreaView, View, FlatList } from "react-native";
-import { Octicons } from "@expo/vector-icons";
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
 import ListC, { useContext, useEffect } from "react";
 import COLORS from "../../consts/colors";
@@ -9,6 +15,7 @@ import ListComponent from "../../components/ListComponent/ListComponent";
 import { CryptoCurrencyDataContext } from "../../service/CryptoCurrencyDataContext";
 import { ActivityIndicator, Colors } from "react-native-paper";
 import { styles } from "./MartkesScreenStyle";
+import { FontAwesome } from "@expo/vector-icons";
 
 const MarketsScreen = () => {
   const navigation = useNavigation();
@@ -50,7 +57,14 @@ const MarketsScreen = () => {
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.topBar}>
-        <Octicons name="three-bars" size={24} color="black" />
+        <TouchableOpacity
+          style={styles.portfolioButtonContainer}
+          onPress={() => navigation.navigate("PortfolioScreen")}
+        >
+          <FontAwesome name="money" size={24} color={COLORS.black} />
+          <Text style={styles.myPortfolioText}>My portfolio</Text>
+        </TouchableOpacity>
+
         <Text style={styles.headerText}>Watchlist</Text>
         <Feather
           name="search"
