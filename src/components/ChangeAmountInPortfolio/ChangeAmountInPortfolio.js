@@ -11,7 +11,7 @@ import PortfolioContext from "../../service/PortfolioContext";
 import { Ionicons } from "@expo/vector-icons";
 import COLORS from "../../consts/colors";
 
-const AddToPortfolio = ({ id, icon, name, symbol }) => {
+const ChangeAmountInPortfolio = ({ id, icon, name, symbol }) => {
   const {
     changeModalVisibility,
     modalVisibility,
@@ -85,4 +85,4 @@ const AddToPortfolio = ({ id, icon, name, symbol }) => {
   );
 };
 
-export default AddToPortfolio;
+export default ChangeAmountInPortfolio;

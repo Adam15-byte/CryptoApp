@@ -1,7 +1,6 @@
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import React, { useContext } from "react";
 import { styles } from "./PortfolioScreenStyle";
-import { TouchableOpacity } from "react-native-web";
 import { useNavigation } from "@react-navigation/native";
 import COLORS from "../../consts/colors";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,7 +10,7 @@ import PortfolioContext from "../../service/PortfolioContext";
 
 const PortfolioScreen = () => {
   const navigation = useNavigation();
-  const { portfolio } = useContext(PortfolioContext);
+  const { portfolio, totalEvaluation } = useContext(PortfolioContext);
   return (
     <View style={styles.container}>
       <View style={styles.topBarContainer}>
@@ -27,22 +26,27 @@ const PortfolioScreen = () => {
       <View style={styles.separator} />
       <View>
         {portfolio.map((item, index) => (
-          <PortfolioComponent
+          <TouchableOpacity
             key={index}
-            icon={item.icon}
-            name={item.name}
-            dolarValue={item.dolarValue}
-            tokenAmount={item.amount}
-            ticker={item.symbol}
-          />
+            activeOpacity={1}
+            onPress={() => {
+              console.log("pressed ");
+            }}
+          >
+            <PortfolioComponent
+              icon={item.icon}
+              name={item.name}
+              dolarValue={item.dolarValue}
+              tokenAmount={item.amount}
+              ticker={item.symbol}
+            />
+          </TouchableOpacity>
         ))}
-        {/* <PortfolioComponent
-          icon={dummyCoinData[0].image}
-          name={dummyCoinData[0].name}
-          dolarValue={dummyCoinData[0].current_price}
-          tokenAmount={1.5}
-          ticker={dummyCoinData[0].symbol.toUpperCase()}
-        /> */}
+      </View>
+      <View style={styles.bottomSeparator} />
+      <View style={styles.bottomTabWithSummary}>
+        <Text style={styles.summaryTitle}>Total portfolio evaluation:</Text>
+        <Text style={styles.summeryValue}>{totalEvaluation.toFixed(2)} $</Text>
       </View>
     </View>
   );

@@ -19,7 +19,9 @@ const PortfolioComponent = ({
         <Text style={styles.dolarText}>{dolarValue.toFixed(2)} $</Text>
         <View style={styles.tokenAmountContainer}>
           <Text style={styles.tokenText}>
-            {tokenAmount.toFixed(1)} {ticker}
+            {tokenAmount < 0
+              ? tokenAmount.toFixed(2) + " " + ticker
+              : tokenAmount.toFixed(0) + " " + ticker}
           </Text>
         </View>
       </View>

@@ -16,6 +16,7 @@ import { CryptoCurrencyDataContext } from "../../service/CryptoCurrencyDataConte
 import { ActivityIndicator, Colors } from "react-native-paper";
 import { styles } from "./MartkesScreenStyle";
 import { FontAwesome } from "@expo/vector-icons";
+import PortfolioContext from "../../service/PortfolioContext";
 
 const MarketsScreen = () => {
   const navigation = useNavigation();
@@ -27,6 +28,7 @@ const MarketsScreen = () => {
     favouritesList,
     isFavouritesEmpty,
   } = useContext(CryptoCurrencyDataContext);
+  const { calculateTotalEvaluation } = useContext(PortfolioContext);
   const renderItem = ({ item }) => {
     return (
       <ListComponent
@@ -59,7 +61,10 @@ const MarketsScreen = () => {
       <View style={styles.topBar}>
         <TouchableOpacity
           style={styles.portfolioButtonContainer}
-          onPress={() => navigation.navigate("PortfolioScreen")}
+          onPress={() => {
+            calculateTotalEvaluation();
+            navigation.navigate("PortfolioScreen");
+          }}
         >
           <FontAwesome name="money" size={24} color={COLORS.black} />
           <Text style={styles.myPortfolioText}>My portfolio</Text>

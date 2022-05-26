@@ -28,4 +28,29 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
     marginVertical: 10,
   },
+  bottomTabWithSummary: {
+    width: "100%",
+    height: 130,
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  bottomSeparator: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: COLORS.grey,
+    width: "90%",
+    alignSelf: "center",
+    marginTop: "auto",
+  },
+  summaryTitle: {
+    color: COLORS.black,
+    fontSize: 24,
+    fontWeight: "bold",
+    marginTop: 20,
+  },
+  summeryValue: {
+    color: COLORS.black,
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
 });

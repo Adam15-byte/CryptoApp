@@ -38,10 +38,10 @@ export const PortfolioContextProvider = ({ children }) => {
       },
     ]);
   };
-  const updateValueInPortfolio = () => {
+  const updateValueInPortfolio = async () => {
     if (portfolio.length !== 0) {
       let tempArray = [];
-      portfolio.map((item) => {
+      await portfolio.map((item) => {
         getFullTokenData(item.id).then((res) => {
           item.dolarValue = res[0].current_price * item.amount;
           tempArray.push(item);
@@ -49,9 +49,20 @@ export const PortfolioContextProvider = ({ children }) => {
       });
     }
   };
+  const [totalEvaluation, setTotalEvaluation] = useState(0);
+  const calculateTotalEvaluation = () => {
+    let total = 0;
+    if (portfolio.length !== 0) {
+      portfolio.map((item) => {
+        total += item.dolarValue;
+      });
+    }
+    setTotalEvaluation(total);
+  };
   useEffect(() => {
     updateValueInPortfolio();
   }, [portfolio]);
+
   return (
     <PortfolioContext.Provider
       value={{
@@ -64,6 +75,8 @@ export const PortfolioContextProvider = ({ children }) => {
         clearErrorInModal,
         addToPortfolio,
         portfolio,
+        totalEvaluation,
+        calculateTotalEvaluation,
       }}
     >
       {children}
