@@ -6,7 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import COLORS from "../../consts/colors";
 import FavouriteStar from "../../components/FavouriteStar/FavouriteStar";
 import PortfolioComponent from "../../components/PortfolioComponent/PortfolioComponent";
@@ -27,6 +27,7 @@ import DetailsScreenLogic from "./DetailsScreenLogic";
 import { PriceDataContext } from "../../service/PriceDataContext";
 const { width: SIZE } = Dimensions.get("window");
 import AddToPortfolio from "../../components/AddToPortfolio/AddToPortfolio";
+import ChangeAmountInPortfolio from "../../components/ChangeAmountInPortfolio/ChangeAmountInPortfolio";
 
 const DetailsScreen = ({ route }) => {
   const {
@@ -51,8 +52,10 @@ const DetailsScreen = ({ route }) => {
     navigation,
     formatDate,
     calcPercentOfMax,
-    modalVisibility,
     changeModalVisibility,
+    changeAmountModalVisibility,
+    modalVisibility,
+    portfolio,
   } = DetailsScreenLogic();
   const formatCurrency = (value) => {
     "worklet";
@@ -74,6 +77,26 @@ const DetailsScreen = ({ route }) => {
   useEffect(() => {
     getPriceData(id);
   }, [dayRange]);
+
+  const [currentTokenInPortfolio, setCurrentTokenInPortfolio] = useState({
+    id: "",
+    icon: "",
+    name: "",
+    amount: 0,
+    symbol: "",
+    dolarValue: 0,
+  });
+  useLayoutEffect(() => {
+    if (portfolio.length !== 0) {
+      portfolio.map((item, index) => {
+        {
+          item.name === name
+            ? setCurrentTokenInPortfolio((prevState) => item)
+            : null;
+        }
+      });
+    }
+  }, [portfolio]);
   return (
     <SafeAreaView style={styles.mainContainer}>
       {isLoading && (
@@ -92,14 +115,17 @@ const DetailsScreen = ({ route }) => {
             smoothingStrategy: "bezier",
           }}
         >
-          <AddToPortfolio id={id} icon={icon} name={name} symbol={symbol} />
+          {modalVisibility === true && (
+            <AddToPortfolio id={id} icon={icon} name={name} symbol={symbol} />
+          )}
+          {changeAmountModalVisibility === true && <ChangeAmountInPortfolio />}
           <View style={styles.topBar}>
             <Ionicons
               style
               name="chevron-back-sharp"
               size={30}
               color={COLORS.black}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.popToTop()}
             />
             <View style={styles.titleTop}>
               <Image style={styles.topIcon} source={{ uri: icon }} />
@@ -140,8 +166,8 @@ const DetailsScreen = ({ route }) => {
             <PortfolioComponent
               icon={icon}
               name={name}
-              dolarValue={0.0}
-              tokenAmount={0.0}
+              dolarValue={currentTokenInPortfolio.dolarValue}
+              tokenAmount={currentTokenInPortfolio.amount}
               ticker={symbol}
             />
           </View>

@@ -56,7 +56,12 @@ const AddToPortfolio = ({ id, icon, name, symbol }) => {
                   </View>
                   {errorInModal !== "" && <Text>{errorInModal}</Text>}
                   <View style={styles.buttonsContainer}>
-                    <TouchableWithoutFeedback onPress={changeModalVisibility}>
+                    <TouchableWithoutFeedback
+                      onPress={() => {
+                        changeModalVisibility();
+                        changeTokensToAdd("");
+                      }}
+                    >
                       <View style={styles.cancelButton}>
                         <Ionicons name="close" size={16} color={COLORS.white} />
                         <Text style={styles.buttonText}>Cancel</Text>

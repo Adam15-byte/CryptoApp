@@ -23,8 +23,11 @@ export const styles = StyleSheet.create({
   },
   rightContainer: {
     marginLeft: "auto",
-    alignItems: "flex-end",
+    flexDirection: "row",
+    alignItems: "center",
   },
+  amountsContainer: { alignItems: "flex-end", marginLeft: 10 },
+  changeButton: { flexDirection: "row", alignItems: "center" },
   tokenAmountContainer: {
     flexDirection: "row",
   },

@@ -5,7 +5,34 @@ import { SearchContext } from "./SearchContext";
 export const PortfolioContext = createContext();
 export const PortfolioContextProvider = ({ children }) => {
   const [modalVisibility, setModalVisibility] = useState(false);
+  const [changeAmountModalVisibility, setChangeAmountModalVisibility] =
+    useState(false);
+  const [changeModalData, setChangeModalData] = useState({
+    icon: "",
+    name: "",
+    tokenAmount: 0,
+    ticker: "",
+  });
   const { getFullTokenData } = useContext(SearchContext);
+  const changeChangeAmountModalVisibility = (
+    iconInput,
+    nameInput,
+    tokenAmountInput,
+    tickerInput
+  ) => {
+    if (changeAmountModalVisibility === true) {
+      setChangeAmountModalVisibility((prevState) => !prevState);
+    }
+    if (changeAmountModalVisibility === false) {
+      setChangeModalData((prevState) => ({
+        ["icon"]: iconInput,
+        ["name"]: nameInput,
+        ["tokenAmount"]: tokenAmountInput,
+        ["ticker"]: tickerInput,
+      }));
+      setChangeAmountModalVisibility((prevState) => !prevState);
+    }
+  };
   const changeModalVisibility = () => {
     setModalVisibility((prevState) => !prevState);
   };
@@ -38,13 +65,23 @@ export const PortfolioContextProvider = ({ children }) => {
       },
     ]);
   };
-  const updateValueInPortfolio = async () => {
+  ////
+  // function for modal, used to change the amount of tokens for a specific coin in portfolio
+  ////
+  const updatePortfolio = (name, amount) => {
+    portfolio.map((item, index) => {
+      if (item.name === name) {
+        item.amount = amount;
+      }
+    });
+    updateValueInPortfolio();
+    calculateTotalEvaluation();
+  };
+  const updateValueInPortfolio = () => {
     if (portfolio.length !== 0) {
-      let tempArray = [];
-      await portfolio.map((item) => {
+      portfolio.map((item) => {
         getFullTokenData(item.id).then((res) => {
           item.dolarValue = res[0].current_price * item.amount;
-          tempArray.push(item);
         });
       });
     }
@@ -61,6 +98,7 @@ export const PortfolioContextProvider = ({ children }) => {
   };
   useEffect(() => {
     updateValueInPortfolio();
+    calculateTotalEvaluation();
   }, [portfolio]);
 
   return (
@@ -77,11 +115,16 @@ export const PortfolioContextProvider = ({ children }) => {
         portfolio,
         totalEvaluation,
         calculateTotalEvaluation,
+        changeChangeAmountModalVisibility,
+        changeAmountModalVisibility,
+        changeModalData,
+        updatePortfolio,
+        updateValueInPortfolio,
       }}
     >
       {children}
     </PortfolioContext.Provider>
   );
-};;
+};
 
 export default PortfolioContext;
