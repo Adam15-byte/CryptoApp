@@ -115,10 +115,12 @@ const DetailsScreen = ({ route }) => {
             smoothingStrategy: "bezier",
           }}
         >
-          {modalVisibility === true && (
+          {modalVisibility === true ? (
             <AddToPortfolio id={id} icon={icon} name={name} symbol={symbol} />
-          )}
-          {changeAmountModalVisibility === true && <ChangeAmountInPortfolio />}
+          ) : null}
+          {changeAmountModalVisibility === true ? (
+            <ChangeAmountInPortfolio />
+          ) : null}
           <View style={styles.topBar}>
             <Ionicons
               style
@@ -164,6 +166,7 @@ const DetailsScreen = ({ route }) => {
               </TouchableOpacity>
             </View>
             <PortfolioComponent
+              id={id}
               icon={icon}
               name={name}
               dolarValue={currentTokenInPortfolio.dolarValue}

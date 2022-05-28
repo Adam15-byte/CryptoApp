@@ -8,13 +8,15 @@ export const PortfolioContextProvider = ({ children }) => {
   const [changeAmountModalVisibility, setChangeAmountModalVisibility] =
     useState(false);
   const [changeModalData, setChangeModalData] = useState({
+    id: "",
     icon: "",
     name: "",
     tokenAmount: 0,
-    ticker: "",
+    symbol: "",
   });
   const { getFullTokenData } = useContext(SearchContext);
   const changeChangeAmountModalVisibility = (
+    idInput,
     iconInput,
     nameInput,
     tokenAmountInput,
@@ -25,10 +27,11 @@ export const PortfolioContextProvider = ({ children }) => {
     }
     if (changeAmountModalVisibility === false) {
       setChangeModalData((prevState) => ({
+        ["id"]: idInput,
         ["icon"]: iconInput,
         ["name"]: nameInput,
         ["tokenAmount"]: tokenAmountInput,
-        ["ticker"]: tickerInput,
+        ["symbol"]: tickerInput,
       }));
       setChangeAmountModalVisibility((prevState) => !prevState);
     }
@@ -53,27 +56,39 @@ export const PortfolioContextProvider = ({ children }) => {
   ////
   const [portfolio, setPortfolio] = useState([]);
   const addToPortfolio = (id, icon, name, amount, symbol) => {
-    setPortfolio((prevState) => [
-      ...prevState,
-      {
-        id: id,
-        icon: icon,
-        name: name,
-        amount: amount,
-        symbol: symbol,
-        dolarValue: 0,
-      },
-    ]);
-  };
-  ////
-  // function for modal, used to change the amount of tokens for a specific coin in portfolio
-  ////
-  const updatePortfolio = (name, amount) => {
-    portfolio.map((item, index) => {
-      if (item.name === name) {
-        item.amount = amount;
-      }
+    ////
+    // if token is already in the portfolio, just increment the amount
+    ////
+    if (portfolio.length !== 0) {
+      portfolio.map((item, index) => {
+        if (item.id === id) {
+          item.amount += amount;
+          return;
+        }
+      });
+    }
+    ////
+    // check again if the token is in portoflio. It it it new token then add it to portfolio.
+    ////
+    let newTokenPassed = true;
+    portfolio.map((item) => {
+      if (item.id === id) newTokenPassed = false;
     });
+    {
+      newTokenPassed
+        ? setPortfolio((prevState) => [
+            ...prevState,
+            {
+              id: id,
+              icon: icon,
+              name: name,
+              amount: amount,
+              symbol: symbol,
+              dolarValue: 0,
+            },
+          ])
+        : null;
+    }
     updateValueInPortfolio();
     calculateTotalEvaluation();
   };
@@ -118,7 +133,6 @@ export const PortfolioContextProvider = ({ children }) => {
         changeChangeAmountModalVisibility,
         changeAmountModalVisibility,
         changeModalData,
-        updatePortfolio,
         updateValueInPortfolio,
       }}
     >

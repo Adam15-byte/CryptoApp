@@ -6,6 +6,7 @@ import COLORS from "../../consts/colors";
 import PortfolioContext from "../../service/PortfolioContext";
 
 const PortfolioComponent = ({
+  id, 
   icon,
   name,
   dolarValue,
@@ -25,7 +26,7 @@ const PortfolioComponent = ({
           size={24}
           color={COLORS.black}
           onPress={() => {
-            changeChangeAmountModalVisibility(icon, name, tokenAmount, ticker);
+            changeChangeAmountModalVisibility(id, icon, name, tokenAmount, ticker);
           }}
         />
         <View style={styles.amountsContainer}>

@@ -22,7 +22,6 @@ const ChangeAmountInPortfolio = ({ id, icon, name, symbol }) => {
     clearErrorInModal,
     addToPortfolio,
     changeModalData,
-    updatePortfolio,
     calculateTotalEvaluation,
   } = useContext(PortfolioContext);
   const validate = (input) => {
@@ -33,7 +32,13 @@ const ChangeAmountInPortfolio = ({ id, icon, name, symbol }) => {
     if (inputToFloat > 0) {
       clearErrorInModal();
       changeTokensToAdd("");
-      updatePortfolio(changeModalData.name, inputToFloat);
+      addToPortfolio(
+        changeModalData.id,
+        changeModalData.icon,
+        changeModalData.name,
+        inputToFloat,
+        changeModalData.symbol
+      );
       calculateTotalEvaluation();
     }
   };
@@ -57,7 +62,7 @@ const ChangeAmountInPortfolio = ({ id, icon, name, symbol }) => {
                   <Text>Currently in portfolio: </Text>
                   <Text>
                     {changeModalData.tokenAmount}{" "}
-                    {changeModalData.ticker.toUpperCase()}
+                    {changeModalData.symbol.toUpperCase()}
                   </Text>
                 </View>
                 <View style={styles.newTokensAmount}>

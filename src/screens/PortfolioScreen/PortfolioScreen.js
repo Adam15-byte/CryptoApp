@@ -35,6 +35,7 @@ const PortfolioScreen = () => {
         {portfolio.map((item, index) => (
           <PortfolioComponent
             key={index}
+            id={item.id}
             icon={item.icon}
             name={item.name}
             dolarValue={item.dolarValue}
