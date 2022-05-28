@@ -36,7 +36,13 @@ const AddToPortfolio = ({ id, icon, name, symbol }) => {
   return (
     <>
       {modalVisibility && (
-        <TouchableWithoutFeedback onPress={changeModalVisibility}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            changeModalVisibility();
+            changeTokensToAdd("");
+            clearErrorInModal();
+          }}
+        >
           <View style={styles.blackBackgroundContainer}>
             <TouchableWithoutFeedback onPress={() => null}>
               <View style={styles.whiteFormContainer}>
@@ -60,6 +66,7 @@ const AddToPortfolio = ({ id, icon, name, symbol }) => {
                       onPress={() => {
                         changeModalVisibility();
                         changeTokensToAdd("");
+                        clearErrorInModal();
                       }}
                     >
                       <View style={styles.cancelButton}>

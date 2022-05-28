@@ -45,7 +45,13 @@ const ChangeAmountInPortfolio = ({ id, icon, name, symbol }) => {
   return (
     <>
       {changeAmountModalVisibility && (
-        <TouchableWithoutFeedback onPress={changeChangeAmountModalVisibility}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            changeTokensToAdd("");
+            changeChangeAmountModalVisibility();
+            clearErrorInModal();
+          }}
+        >
           <View style={styles.blackBackgroundContainer}>
             <TouchableWithoutFeedback onPress={() => null}>
               <View style={styles.whiteFormContainer}>
@@ -82,6 +88,7 @@ const ChangeAmountInPortfolio = ({ id, icon, name, symbol }) => {
                     onPress={() => {
                       changeTokensToAdd("");
                       changeChangeAmountModalVisibility();
+                      clearErrorInModal();
                     }}
                   >
                     <View style={styles.cancelButton}>
