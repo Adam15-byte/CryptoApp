@@ -55,6 +55,15 @@ export const PortfolioContextProvider = ({ children }) => {
   // Array of positions in portfolio
   ////
   const [portfolio, setPortfolio] = useState([]);
+
+  const calculateDolarValue = async (id, amount) => {
+    let final = 0;
+    await getFullTokenData(id).then((res) => {
+      final = res[0].current_price * amount;
+    });
+    return final;
+  };
+
   const addToPortfolio = (id, icon, name, amount, symbol) => {
     ////
     // if token is already in the portfolio, just increment the amount
@@ -62,8 +71,15 @@ export const PortfolioContextProvider = ({ children }) => {
     if (portfolio.length !== 0) {
       portfolio.map((item, index) => {
         if (item.id === id) {
-          item.amount += amount;
-          return;
+          calculateDolarValue(id, amount).then((res) => {
+            setPortfolio((prevState) => [
+              ...prevState,
+              {
+                ...(prevState[index].amount = amount),
+                ...(prevState[index].dolarValue = res),
+              },
+            ]);
+          });
         }
       });
     }
@@ -76,31 +92,26 @@ export const PortfolioContextProvider = ({ children }) => {
     });
     {
       newTokenPassed
-        ? setPortfolio((prevState) => [
-            ...prevState,
-            {
-              id: id,
-              icon: icon,
-              name: name,
-              amount: amount,
-              symbol: symbol,
-              dolarValue: 0,
-            },
-          ])
+        ? calculateDolarValue(id, amount).then((res) => {
+            setPortfolio((prevState) => [
+              ...prevState,
+              {
+                id: id,
+                icon: icon,
+                name: name,
+                amount: amount,
+                symbol: symbol,
+                dolarValue: res,
+              },
+            ]);
+          })
         : null;
     }
-    updateValueInPortfolio();
     calculateTotalEvaluation();
   };
-  const updateValueInPortfolio = () => {
-    if (portfolio.length !== 0) {
-      portfolio.map((item) => {
-        getFullTokenData(item.id).then((res) => {
-          item.dolarValue = res[0].current_price * item.amount;
-        });
-      });
-    }
-  };
+  useEffect(() => {
+    console.log(portfolio);
+  }, [portfolio]);
   const [totalEvaluation, setTotalEvaluation] = useState(0);
   const calculateTotalEvaluation = () => {
     let total = 0;
@@ -112,7 +123,6 @@ export const PortfolioContextProvider = ({ children }) => {
     setTotalEvaluation(total);
   };
   useEffect(() => {
-    updateValueInPortfolio();
     calculateTotalEvaluation();
   }, [portfolio]);
 
@@ -133,7 +143,6 @@ export const PortfolioContextProvider = ({ children }) => {
         changeChangeAmountModalVisibility,
         changeAmountModalVisibility,
         changeModalData,
-        updateValueInPortfolio,
       }}
     >
       {children}

@@ -26,17 +26,25 @@ const PortfolioComponent = ({
           size={24}
           color={COLORS.black}
           onPress={() => {
-            changeChangeAmountModalVisibility(id, icon, name, tokenAmount, ticker);
+            changeChangeAmountModalVisibility(
+              id,
+              icon,
+              name,
+              tokenAmount,
+              ticker
+            );
           }}
         />
         <View style={styles.amountsContainer}>
-          <Text style={styles.dolarText}>{dolarValue.toFixed(2)} $</Text>
+          <Text style={styles.dolarText}>
+            {dolarValue ? dolarValue.toFixed(2) : 0} $
+          </Text>
           <View style={styles.tokenAmountContainer}>
-            <Text style={styles.tokenText}>
+            {/* <Text style={styles.tokenText}>
               {tokenAmount < 0
                 ? tokenAmount.toFixed(2) + " " + ticker.toUpperCase()
                 : tokenAmount.toFixed(0) + " " + ticker.toUpperCase()}
-            </Text>
+            </Text> */}
           </View>
         </View>
       </View>
