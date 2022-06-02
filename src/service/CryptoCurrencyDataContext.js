@@ -44,11 +44,11 @@ export const CryptoCurrencyDataContextProvider = ({ children }) => {
     }
   };
 
-  const addNewFavourite = async (id) => {
+  const addNewFavourite = (id) => {
     if (isFavouritesEmpty) {
-      await setFavouritesList((prevState) => id);
+      setFavouritesList((prevState) => id);
     } else {
-      await setFavouritesList((currentList) => [...currentList, id]);
+      setFavouritesList((currentList) => [...currentList, id]);
     }
   };
 

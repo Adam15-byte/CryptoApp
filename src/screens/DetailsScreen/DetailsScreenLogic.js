@@ -17,7 +17,6 @@ const DetailsScreenLogic = () => {
   const { isLoading, priceData, getPriceData, dayRange } =
     useContext(PriceDataContext);
   const {
-    modalVisibility,
     changeModalVisibility,
     changeAmountModalVisibility,
     portfolio,
@@ -52,7 +51,6 @@ const DetailsScreenLogic = () => {
     navigation,
     formatDate,
     calcPercentOfMax,
-    modalVisibility,
     changeModalVisibility,
     changeAmountModalVisibility,
     portfolio,

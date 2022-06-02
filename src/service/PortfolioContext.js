@@ -4,7 +4,6 @@ import { SearchContext } from "./SearchContext";
 
 export const PortfolioContext = createContext();
 export const PortfolioContextProvider = ({ children }) => {
-  const [modalVisibility, setModalVisibility] = useState(false);
   const [changeAmountModalVisibility, setChangeAmountModalVisibility] =
     useState(false);
   const [changeModalData, setChangeModalData] = useState({
@@ -66,22 +65,28 @@ export const PortfolioContextProvider = ({ children }) => {
 
   const addToPortfolio = (id, icon, name, amount, symbol) => {
     ////
+    // check if value is zero and remove from portfolio array
+    ////
+    if (amount === 0) {
+      const newPortfolio = portfolio.filter((item) => item.id !== id);
+      setPortfolio((prevState) => newPortfolio);
+      return;
+    }
+    ////
     // if token is already in the portfolio, just increment the amount
     ////
     if (portfolio.length !== 0) {
       portfolio.map((item, index) => {
         if (item.id === id) {
           calculateDolarValue(id, amount).then((res) => {
-            setPortfolio((prevState) => [
-              ...prevState,
-              {
-                ...(prevState[index].amount = amount),
-                ...(prevState[index].dolarValue = res),
-              },
-            ]);
+            const updatedPortfolio = [...portfolio];
+            updatedPortfolio[index].amount = amount;
+            updatedPortfolio[index].dolarValue = res;
+            setPortfolio((prevState) => updatedPortfolio);
           });
         }
       });
+      return;
     }
     ////
     // check again if the token is in portoflio. It it it new token then add it to portfolio.
@@ -107,11 +112,7 @@ export const PortfolioContextProvider = ({ children }) => {
           })
         : null;
     }
-    calculateTotalEvaluation();
   };
-  useEffect(() => {
-    console.log(portfolio);
-  }, [portfolio]);
   const [totalEvaluation, setTotalEvaluation] = useState(0);
   const calculateTotalEvaluation = () => {
     let total = 0;
@@ -130,7 +131,6 @@ export const PortfolioContextProvider = ({ children }) => {
     <PortfolioContext.Provider
       value={{
         changeModalVisibility,
-        modalVisibility,
         tokensToAdd,
         changeTokensToAdd,
         errorInModal,

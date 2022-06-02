@@ -23,13 +23,14 @@ const ChangeAmountInPortfolio = ({ id, icon, name, symbol }) => {
     addToPortfolio,
     changeModalData,
     calculateTotalEvaluation,
+    portfolio,
   } = useContext(PortfolioContext);
   const validate = (input) => {
     const inputToFloat = parseFloat(input);
-    if (inputToFloat <= 0) {
+    if (inputToFloat < 0) {
       changeErrorInModal("Token amount must be bigger than 0");
     }
-    if (inputToFloat > 0) {
+    if (inputToFloat >= 0) {
       clearErrorInModal();
       changeTokensToAdd("");
       addToPortfolio(
@@ -67,7 +68,19 @@ const ChangeAmountInPortfolio = ({ id, icon, name, symbol }) => {
                 <View style={styles.currentTokensInformation}>
                   <Text>Currently in portfolio: </Text>
                   <Text>
-                    {changeModalData.tokenAmount}{" "}
+                    {/* 
+                    If portfolio is empty just display 0 tokens
+                    If there are items in portoflio, map over it and get current token amount
+                    */}
+                    {portfolio.length === 0
+                      ? 0
+                      : portfolio.map((item, index) => {
+                          if (item.id === changeModalData.id) {
+                            return item.amount;
+                          } else {
+                            return 0;
+                          }
+                        })}{" "}
                     {changeModalData.symbol.toUpperCase()}
                   </Text>
                 </View>

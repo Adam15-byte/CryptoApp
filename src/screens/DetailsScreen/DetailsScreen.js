@@ -54,7 +54,6 @@ const DetailsScreen = ({ route }) => {
     calcPercentOfMax,
     changeModalVisibility,
     changeAmountModalVisibility,
-    modalVisibility,
     portfolio,
   } = DetailsScreenLogic();
   const formatCurrency = (value) => {
@@ -115,9 +114,6 @@ const DetailsScreen = ({ route }) => {
             smoothingStrategy: "bezier",
           }}
         >
-          {modalVisibility === true ? (
-            <AddToPortfolio id={id} icon={icon} name={name} symbol={symbol} />
-          ) : null}
           {changeAmountModalVisibility === true ? (
             <ChangeAmountInPortfolio />
           ) : null}
@@ -157,13 +153,6 @@ const DetailsScreen = ({ route }) => {
           <View style={styles.myPortfolioContainer}>
             <View style={styles.myPortfolioHeader}>
               <Text style={styles.myPortfolioText}>My portfolio</Text>
-              <TouchableOpacity
-                style={styles.addButton}
-                onPress={changeModalVisibility}
-              >
-                <Ionicons name="add" size={20} color={COLORS.white} />
-                <Text style={styles.addText}>Add</Text>
-              </TouchableOpacity>
             </View>
             <PortfolioComponent
               id={id}
