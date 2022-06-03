@@ -20,7 +20,6 @@ import PortfolioContext from "../../service/PortfolioContext";
 const MarketsScreen = () => {
   const navigation = useNavigation();
   const { isLoading, cryptoData } = useContext(CryptoCurrencyDataContext);
-  const { calculateTotalEvaluation } = useContext(PortfolioContext);
   const renderItem = ({ item }) => {
     return (
       <ListComponent
@@ -54,7 +53,6 @@ const MarketsScreen = () => {
         <TouchableOpacity
           style={styles.portfolioButtonContainer}
           onPress={() => {
-            calculateTotalEvaluation();
             navigation.navigate("PortfolioScreen");
           }}
         >
@@ -82,7 +80,7 @@ const MarketsScreen = () => {
       )}
       {!isLoading && (
         <View>
-          <FlatList data={dummyCoinData} renderItem={renderItem} />
+          <FlatList data={cryptoData} renderItem={renderItem} />
         </View>
       )}
     </SafeAreaView>
