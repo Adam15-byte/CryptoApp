@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from "react-native";
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { SearchContext } from "./SearchContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const PortfolioContext = createContext();
 export const PortfolioContextProvider = ({ children }) => {
@@ -86,7 +86,6 @@ export const PortfolioContextProvider = ({ children }) => {
           });
         }
       });
-      return;
     }
     ////
     // check again if the token is in portoflio. It it it new token then add it to portfolio.
@@ -113,6 +112,42 @@ export const PortfolioContextProvider = ({ children }) => {
         : null;
     }
   };
+
+  ////
+  // Save portfolio to device memory
+  ////
+  const storePortfolio = async () => {
+    try {
+      const jsonValue = JSON.stringify(portfolio);
+      await AsyncStorage.setItem("@portfolio", jsonValue);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    storePortfolio();
+  }, [portfolio]);
+
+  ////
+  // Load portofolio from device memory on render
+  ////
+  const loadPortfolio = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@portfolio");
+      const portfolioData = JSON.parse(jsonValue);
+      setPortfolio((prevState) => portfolioData);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    loadPortfolio();
+  }, []);
+  ////
+  // Calculate total evaluation displayed in PortfolioScreen
+  ////
   const [totalEvaluation, setTotalEvaluation] = useState(0);
   const calculateTotalEvaluation = () => {
     let total = 0;
@@ -148,6 +183,6 @@ export const PortfolioContextProvider = ({ children }) => {
       {children}
     </PortfolioContext.Provider>
   );
-};
+};;
 
 export default PortfolioContext;

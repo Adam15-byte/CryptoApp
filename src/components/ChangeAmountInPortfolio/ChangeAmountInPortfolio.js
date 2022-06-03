@@ -77,8 +77,6 @@ const ChangeAmountInPortfolio = ({ id, icon, name, symbol }) => {
                       : portfolio.map((item, index) => {
                           if (item.id === changeModalData.id) {
                             return item.amount;
-                          } else {
-                            return 0;
                           }
                         })}{" "}
                     {changeModalData.symbol.toUpperCase()}

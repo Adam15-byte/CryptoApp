@@ -6,6 +6,10 @@ export const SearchContext = createContext();
 export const SearchContextProvider = ({ children }) => {
   const [searchResults, setSearchResults] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  ////
+  // Get list of search coins
+  ////
   const getSearchData = async (input) => {
     setIsLoading(true);
     try {
@@ -20,6 +24,10 @@ export const SearchContextProvider = ({ children }) => {
       console.log(error);
     }
   };
+
+  ////
+  // Get data of token clicked in search screen, passed to Details Screen
+  ////
   const getFullTokenData = async (token) => {
     let data;
     try {

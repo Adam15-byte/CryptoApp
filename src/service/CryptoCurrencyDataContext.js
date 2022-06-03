@@ -1,32 +1,37 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const CryptoCurrencyDataContext = createContext();
 
 export const CryptoCurrencyDataContextProvider = ({ children }) => {
-  const [favouritesList, setFavouritesList] = useState(null);
-  const [cryptoData, setCryptoData] = useState({});
+  const [favouritesList, setFavouritesList] = useState([]);
+  const [cryptoData, setCryptoData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const isFavouritesEmpty = favouritesList === null ? true : false;
-  const getStringListOfFavourites = async () => {
-    if (isFavouritesEmpty) {
+  const isFavouritesEmpty = favouritesList.length === 0 ? true : false;
+
+  ////
+  // Convert list of of Favourites to one long string
+  ////
+  const getStringListOfFavourites = () => {
+    if (favouritesList.length === 0) {
       return null;
     } else {
       setIsLoading(true);
       var concString = "";
-      await favouritesList.map((element, index) => {
-        if (index === 0) {
+      favouritesList.map((element, index) => {
+        if (index === 0 && element.length > 1)
           concString = (concString + element).toString();
-        } else {
+        if (index !== 0 && element.length > 1)
           concString = (concString + "%2C%20" + element).toString();
-        }
       });
       return concString;
     }
   };
 
+  ////
+  // retireve Watchlist data for Markets Screen based on favouritesList
+  ////
   const getCryptoData = async (coinsList) => {
     setIsLoading(true);
     try {
@@ -44,12 +49,11 @@ export const CryptoCurrencyDataContextProvider = ({ children }) => {
     }
   };
 
+  ////
+  // Manage favourites array state
+  ////
   const addNewFavourite = (id) => {
-    if (isFavouritesEmpty) {
-      setFavouritesList((prevState) => id);
-    } else {
-      setFavouritesList((currentList) => [...currentList, id]);
-    }
+    setFavouritesList((currentList) => [...currentList, id]);
   };
 
   const removeFavourite = async (id) => {
@@ -57,11 +61,13 @@ export const CryptoCurrencyDataContextProvider = ({ children }) => {
     await setFavouritesList((prevState) => newFavourites);
   };
 
+  ////
+  // Favourites save and load state from device memory
+  ////
   const saveFavouritesToMemory = async () => {
     try {
       const jsonValue = JSON.stringify(favouritesList);
       await AsyncStorage.setItem("@cryptoWatchlist", jsonValue);
-      console.log("Async saved data");
     } catch (e) {
       console.log(e);
     }
@@ -72,7 +78,6 @@ export const CryptoCurrencyDataContextProvider = ({ children }) => {
       const jsonValue = await AsyncStorage.getItem("@cryptoWatchlist");
       const watchlistData = JSON.parse(jsonValue);
       setFavouritesList((prevState) => watchlistData);
-      console.log(favouritesList);
     } catch (e) {
       console.log(e);
     }
@@ -81,15 +86,20 @@ export const CryptoCurrencyDataContextProvider = ({ children }) => {
   useEffect(() => {
     loadFavouritesFromMemory();
   }, []);
-  useEffect(() => {
-    if (isFavouritesEmpty) {
-      return null;
-    } else {
-      getStringListOfFavourites().then((res) => getCryptoData(res));
-    }
-  }, [favouritesList]);
+
   useEffect(() => {
     saveFavouritesToMemory();
+  }, [favouritesList]);
+
+  ////
+  // On every change of favouritesList load data of cryptos on watchlist (in Markets Screen)
+  ////
+  useEffect(() => {
+    if (favouritesList.length === 0) {
+      return null;
+    } else {
+      getCryptoData(getStringListOfFavourites());
+    }
   }, [favouritesList]);
 
   return (
@@ -100,12 +110,12 @@ export const CryptoCurrencyDataContextProvider = ({ children }) => {
         getCryptoData: getCryptoData,
         getStringListOfFavourites: getStringListOfFavourites,
         favouritesList,
-        addNewFavourite: addNewFavourite,
-        removeFavourite: removeFavourite,
+        addNewFavourite,
+        removeFavourite,
         isFavouritesEmpty,
       }}
     >
       {children}
     </CryptoCurrencyDataContext.Provider>
   );
-};
+};;

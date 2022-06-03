@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   Text,
   SafeAreaView,
   View,
@@ -7,7 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import ListC, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import COLORS from "../../consts/colors";
 import dummyCoinData from "../../../assets/data/cryptocurrenciesDummy";
 import { useNavigation } from "@react-navigation/native";
@@ -20,14 +19,7 @@ import PortfolioContext from "../../service/PortfolioContext";
 
 const MarketsScreen = () => {
   const navigation = useNavigation();
-  const {
-    getCryptoData,
-    isLoading,
-    cryptoData,
-    getStringListOfFavourites,
-    favouritesList,
-    isFavouritesEmpty,
-  } = useContext(CryptoCurrencyDataContext);
+  const { isLoading, cryptoData } = useContext(CryptoCurrencyDataContext);
   const { calculateTotalEvaluation } = useContext(PortfolioContext);
   const renderItem = ({ item }) => {
     return (
@@ -90,7 +82,7 @@ const MarketsScreen = () => {
       )}
       {!isLoading && (
         <View>
-          <FlatList data={cryptoData} renderItem={renderItem} />
+          <FlatList data={dummyCoinData} renderItem={renderItem} />
         </View>
       )}
     </SafeAreaView>
