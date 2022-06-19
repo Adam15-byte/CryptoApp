@@ -16,7 +16,7 @@ Added portfolio managment, allowing to add tokens to portfolio with specific amo
 * React Native Stack Navigator
 * Axios
 * AsyncStorage
-* React Native Reanimated
+* React Native Reanimated 2
 * rainbow-me/animated-charts
 * Hooks: useEffect, useState, useContext, createContext
 
